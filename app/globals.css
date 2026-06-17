@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-900: #05080C; --bg-850: #07111A; --bg-800: #0A1621;
+  --amber: #D39A2E; --gold: #F0B84A; --cyan: #27B6D6; --green: #44D083;
+  --text-1: #F4F7FA; --text-2: #AAB6C2; --text-3: #6F7D89;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%; overflow: hidden;
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--bg-900); color: var(--text-1);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    linear-gradient(rgba(27,42,54,0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27,42,54,0.18) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #273644; border-radius: 2px; }
