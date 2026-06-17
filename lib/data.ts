@@ -14,7 +14,7 @@ type BlobSnapshot = {
 };
 
 let _snapshotCache: { data: BlobSnapshot; at: number } | null = null;
-const CACHE_TTL = 30_000; // 30 segundos
+const CACHE_TTL = 30_000;
 
 async function fetchSnapshot(): Promise<BlobSnapshot> {
   if (_snapshotCache && Date.now() - _snapshotCache.at < CACHE_TTL) {
@@ -70,6 +70,30 @@ const FALLBACK_ALERTS: DbAlert[] = [
   { id: 2, title: "Aprovação Guararema", description: "Aguardando resposta da prefeitura", priority: "info", project_id: "3", resolved: false },
   { id: 3, title: "Galpão Mogi: análise retrofit", description: "Avaliação técnica e orçamento necessários", priority: "warning", project_id: "2", resolved: false },
   { id: 4, title: "Andy OS online ●", description: "Sistema operacional e monitorando", priority: "success", project_id: "5", resolved: false },
+];
+
+const FALLBACK_ACTIVITY: ActivityEntry[] = [
+  {
+    id: 1, type: "task",
+    task_title: "Deploy Andy OS",
+    content: "Build errors corrigidos (TypeScript, Clerk v6), GitHub→Vercel conectado, auto-deploy ativo e funcionando",
+    task_status: "completed",
+    tool_name: null, session_id: null, created_at: "2026-06-17T15:00:00.000Z"
+  },
+  {
+    id: 2, type: "task",
+    task_title: "Auth Clerk",
+    content: "Middleware Clerk investigado — problema Edge Runtime identificado, solução em progresso",
+    task_status: "completed",
+    tool_name: null, session_id: null, created_at: "2026-06-17T16:30:00.000Z"
+  },
+  {
+    id: 3, type: "task",
+    task_title: "Redesign Cockpit",
+    content: "Live Activity horizontal no topo com cards de tarefa — título, descrição e status",
+    task_status: "in_progress",
+    tool_name: null, session_id: null, created_at: "2026-06-17T16:38:00.000Z"
+  },
 ];
 
 /* ─── FETCH FUNCTIONS ──────────────────────────────── */
@@ -133,8 +157,10 @@ export async function fetchActivity(since?: string): Promise<ActivityEntry[]> {
       .limit(50);
     if (since) q = q.gt("created_at", since);
     const { data } = await q;
+    if (!since && (!data || !data.length)) return FALLBACK_ACTIVITY;
     return (data ?? []).reverse();
   } catch {
+    if (!since) return FALLBACK_ACTIVITY;
     return [];
   }
 }
