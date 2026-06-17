@@ -70,7 +70,7 @@ export default async function CockpitPage() {
                   <div style={{ fontFamily: '"IBM Plex Mono",monospace', fontSize: 11, fontWeight: 600, color: "#F4F7FA" }}>claude-sonnet-4-6</div>
                   <div style={{ fontFamily: '"IBM Plex Mono",monospace', fontSize: 9, color: "#6F7D89", marginTop: 2 }}>Anthropic · Aug 2025 cutoff</div>
                   <div style={{ display: "flex", gap: 4, marginTop: 7, flexWrap: "wrap" }}>
-                    {([["29 skills","#27B6D6"],["4 MCPs","#44D083"],["Sonnet 4.6","#F0B84A"]] as [string,string][]).map(([l,c])=>(
+                    {(["29 skills","#27B6D6"],["4 MCPs","#44D083"],["Sonnet 4.6","#F0B84A"]] as [string,string][]).map(([l,c])=>(
                       <span key={l} style={{ padding:"2px 5px",borderRadius:5,fontFamily:'"IBM Plex Mono",monospace',fontSize:8,fontWeight:500,background:`${c}15`,color:c,border:`1px solid ${c}30` }}>{l}</span>
                     ))}
                   </div>
