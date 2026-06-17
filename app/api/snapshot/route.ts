@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { put, list } from "@vercel/blob";
 
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 const SECRET = process.env.ANDY_SNAPSHOT_SECRET ?? "";
 
 export async function POST(req: NextRequest) {
