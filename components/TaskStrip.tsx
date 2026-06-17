@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { ActivityEntry } from "@/lib/supabase";
 
 const POLL_MS = 15_000;
@@ -33,9 +33,11 @@ function TaskCard({ entry }: { entry: ActivityEntry }) {
       </div>
       <p style={{
         margin: 0, fontSize: 10, color: "#7A8A98", lineHeight: 1.45,
-        display: "-webkit-box", WebkitLineClamp: 2,
-        WebkitBoxOrient: "vertical" as const, overflow: "hidden",
-      }}>{entry.content}</p>
+        overflow: "hidden",
+        display: "-webkit-box",
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: "vertical",
+      } as React.CSSProperties}>{entry.content}</p>
       <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 2 }}>
         <div style={{
           width: 5, height: 5, borderRadius: "50%", flexShrink: 0,
@@ -45,7 +47,7 @@ function TaskCard({ entry }: { entry: ActivityEntry }) {
         <span style={{
           fontFamily: '"IBM Plex Mono",monospace', fontSize: 8, fontWeight: 600,
           color: isActive ? "#44D083" : "#4A5A68",
-          textTransform: "uppercase" as const, letterSpacing: "0.09em",
+          textTransform: "uppercase", letterSpacing: "0.09em",
         }}>
           {isActive ? "em andamento" : "concluída"}
         </span>
@@ -88,22 +90,27 @@ export function TaskStrip({ initial }: { initial: ActivityEntry[] }) {
   });
 
   return (
-    <div style={{
-      display: "flex", gap: 8, overflowX: "auto", padding: "10px 16px 12px",
-      scrollbarWidth: "none" as const,
-      msOverflowStyle: "none" as unknown as React.CSSProperties["msOverflowStyle"],
-    }}>
-      {sorted.length === 0 ? (
-        <div style={{
-          flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
-          fontFamily: '"IBM Plex Mono",monospace', fontSize: 10, color: "#6F7D89",
-          minHeight: 90,
-        }}>
-          aguardando tarefas...
-        </div>
-      ) : (
-        sorted.map(e => <TaskCard key={e.id} entry={e} />)
-      )}
-    </div>
+    <>
+      <style>{`.task-strip::-webkit-scrollbar { display: none; }`}</style>
+      <div
+        className="task-strip"
+        style={{
+          display: "flex", gap: 8, overflowX: "auto", padding: "10px 16px 12px",
+          scrollbarWidth: "none",
+        }}
+      >
+        {sorted.length === 0 ? (
+          <div style={{
+            flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+            fontFamily: '"IBM Plex Mono",monospace', fontSize: 10, color: "#6F7D89",
+            minHeight: 90,
+          }}>
+            aguardando tarefas...
+          </div>
+        ) : (
+          sorted.map(e => <TaskCard key={e.id} entry={e} />)
+        )}
+      </div>
+    </>
   );
 }
