@@ -1,10 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Project, KPI, DbAlert, ActivityEntry } from "./supabase";
 
-/* ─── VERCEL BLOB SNAPSHOT ─────────────────────────────
- * Andy/N8N escrevem um JSON em andy-snapshot.json.
- * Aqui tentamos ler esse snapshot antes de cair no fallback.
- * ------------------------------------------------------- */
 type BlobSnapshot = {
   activity?: ActivityEntry[];
   kpis?: KPI[];
@@ -46,8 +42,6 @@ function serverClient() {
   const key = process.env.SUPABASE_SERVICE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRFA0NiK7kyqHFSBFJDeBRWthNT5ZrX5b0jZHFOwOJc";
   return createClient(url, key);
 }
-
-/* ─── STATIC FALLBACK ──────────────────────────────── */
 
 const FALLBACK_PROJECTS: Project[] = [
   { id: "1", name: "Holding Pestana Pavan", description: "Portfólio imobiliário familiar", status: "active", badge: "ativo", priority: 1, icon: "H", accent_color: "amber", kpi_label: "Cap Rate", kpi_value: "7.2%" },
@@ -95,8 +89,6 @@ const FALLBACK_ACTIVITY: ActivityEntry[] = [
     tool_name: null, session_id: null, created_at: "2026-06-17T16:38:00.000Z"
   },
 ];
-
-/* ─── FETCH FUNCTIONS ──────────────────────────────── */
 
 export async function fetchProjects(): Promise<Project[]> {
   const snap = await fetchSnapshot();
